@@ -9,7 +9,7 @@ data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
 
 cap = cv2.VideoCapture(0)
 
-classes = ['Pausar','Up','Down','Right','Left','Nan']
+classes = ['Pausar','Up','Down','Right','Left','Nan','F','altf4']
     
 def pause_video():
     pyautogui.hotkey('space')
@@ -32,7 +32,13 @@ def right():
     pyautogui.hotkey('Right')
     time.sleep(0.5)
 
+def f():
+    pyautogui.hotkey('F')
+    time.sleep(0.5)    
 
+def altf4():
+    pyautogui.hotkey('alt','f4')
+    time.sleep(2)
 
 while True:
     success,img = cap.read()
@@ -44,24 +50,34 @@ while True:
     indexVal = np.argmax(prediction)
 
     cv2.putText(img, str(classes[indexVal]),(50,50), cv2.FONT_HERSHEY_COMPLEX, 2, (0,255,0), 2)
-    print(classes[indexVal])
-
-    if classes[indexVal] == 'Pausar' :
-       pause_video()
-
-    elif classes[indexVal] == 'Down' :
-        down()   
-
-    elif classes[indexVal] == 'Up' :
-        up()
-
-    elif classes[indexVal] == 'Left' :
-        left()
-
-    elif classes[indexVal] == 'Right' :
-        right()        
-       
-
+    time.sleep(0.2)
+    print(classes[indexVal])  
+    
     cv2.imshow('img',img)
     cv2.waitKey(1)
 
+    match classes[indexVal]:
+        case "Pausar":
+            pause_video()
+
+        case "Down":
+            down()
+
+        case "Up" :
+           up()
+
+        case "Left":
+           left()
+
+        case "Right":
+            right()
+
+        case "F":
+            f()
+
+        case "altf4":
+            altf4()             
+
+        case _:
+            print('Nan')       
+        
